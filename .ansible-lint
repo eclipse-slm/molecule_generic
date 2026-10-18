@@ -1,0 +1,7 @@
+---
+exclude_paths:
+  - docs/
+  - .superpowers/
+skip_list:
+  # Tests and scenarios include this role by path, as the upstream molecule_* roles do.
+  - role-name[path]

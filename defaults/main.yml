@@ -1,0 +1,3 @@
+---
+# Backend that creates and destroys the Molecule instances: docker, kubevirt or openstack.
+molecule_generic_driver: "{{ lookup('env', 'MOLECULE_DRIVER') | default('openstack', true) }}"

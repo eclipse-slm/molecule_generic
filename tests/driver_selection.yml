@@ -1,0 +1,15 @@
+---
+- name: Resolve molecule_generic driver
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: Validate driver
+      ansible.builtin.include_role:
+        name: "{{ playbook_dir }}/.."
+        tasks_from: validate.yml
+        public: true
+
+    - name: Print resolved driver
+      ansible.builtin.debug:
+        msg: "DRIVER={{ molecule_generic_driver }} ROLE={{ molecule_generic_driver_roles[molecule_generic_driver] }}"

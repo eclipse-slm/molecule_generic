@@ -1,0 +1,6 @@
+---
+# Maps each supported driver to the role that implements it.
+molecule_generic_driver_roles:
+  docker: molecule_docker
+  kubevirt: molecule_kubevirt
+  openstack: molecule_openstack

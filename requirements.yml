@@ -1,0 +1,21 @@
+---
+roles:
+  - name: molecule_docker
+    src: https://github.com/eclipse-slm/molecule_docker.git
+    scm: git
+    version: main
+  - name: molecule_kubevirt
+    src: https://github.com/eclipse-slm/molecule_kubevirt.git
+    scm: git
+    version: main
+  # molecule_openstack has no meta/main.yml yet, so ansible-galaxy cannot install it.
+  # Uncomment once upstream ships one.
+  # - name: molecule_openstack
+  #   src: https://github.com/eclipse-slm/molecule_openstack.git
+  #   scm: git
+  #   version: main
+
+collections:
+  - name: community.docker
+  - name: community.general
+  - name: kubernetes.core

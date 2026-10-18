@@ -1,0 +1,17 @@
+---
+galaxy_info:
+  author: Benjamin Goetz
+  description: Generic Molecule driver role dispatching to docker, kubevirt or openstack.
+  company: Fraunhofer IPA
+  role_name: molecule_generic
+  namespace: eclipse_slm
+  license: MIT
+  min_ansible_version: "2.15"
+  galaxy_tags:
+    - molecule
+    - docker
+    - kubevirt
+    - openstack
+
+# The backend roles come from requirements.yml; listing them here would run all three.
+dependencies: []

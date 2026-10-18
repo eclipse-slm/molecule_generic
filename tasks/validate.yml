@@ -1,0 +1,9 @@
+---
+- name: Validate molecule_generic_driver
+  ansible.builtin.assert:
+    that:
+      - molecule_generic_driver in molecule_generic_driver_roles
+    fail_msg: >-
+      Unsupported molecule_generic_driver '{{ molecule_generic_driver }}'.
+      Valid drivers: {{ molecule_generic_driver_roles.keys() | sort | join(', ') }}
+    quiet: true

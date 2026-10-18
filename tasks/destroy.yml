@@ -1,0 +1,8 @@
+---
+- name: Validate driver
+  ansible.builtin.include_tasks: validate.yml
+
+- name: Destroy instances using driver {{ molecule_generic_driver }}
+  ansible.builtin.include_role:
+    name: "{{ molecule_generic_driver_roles[molecule_generic_driver] }}"
+    tasks_from: destroy.yml
