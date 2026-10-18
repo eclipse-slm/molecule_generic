@@ -1,0 +1,51 @@
+---
+dependency:
+  name: galaxy
+  options:
+    ignore-certs: false
+    ignore-errors: false
+    role-file: requirements.yml
+    requirements-file: requirements.yml
+
+platforms:
+  - name: ubuntu-24-01
+    image: quay.io/containerdisks/ubuntu:24.04
+    arch: amd64
+    volume_size: 15Gi
+  - name: ubuntu-24-02
+    image: quay.io/containerdisks/ubuntu:24.04
+    arch: amd64
+
+ansible:
+  cfg:
+    defaults:
+      host_key_checking: false
+      verbosity: 1
+    ssh_connection:
+      pipelining: true
+  env:
+    ANSIBLE_FORCE_COLOR: "1"
+    ANSIBLE_LOAD_CALLBACK_PLUGINS: "1"
+    MOLECULE_DRIVER: kubevirt
+
+  executor:
+    backend: ansible-playbook
+    args:
+      ansible_playbook:
+        - --diff
+        - --force-handlers
+
+  playbooks:
+    converge: ../default/converge.yml
+    destroy: ../default/destroy.yml
+    verify: ../default/verify.yml
+
+scenario:
+  name: kubevirt
+  test_sequence:
+    - dependency
+    - destroy
+    - syntax
+    - converge
+    - verify
+    - destroy
