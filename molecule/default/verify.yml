@@ -1,0 +1,22 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: true
+  become: false
+  tasks:
+    - name: Create empty file
+      ansible.builtin.file:
+        path: /tmp/molecule-empty-file
+        state: touch
+        mode: "0644"
+
+    - name: Check empty file exists
+      ansible.builtin.stat:
+        path: /tmp/molecule-empty-file
+      register: molecule_empty_file_stat
+
+    - name: Assert empty file exists
+      ansible.builtin.assert:
+        that:
+          - molecule_empty_file_stat.stat.exists
+          - molecule_empty_file_stat.stat.isreg

@@ -1,0 +1,12 @@
+---
+# Creates the instances through molecule_generic; the driver comes from
+# molecule_generic_driver / MOLECULE_DRIVER.
+- name: Converge
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: Create instances
+      ansible.builtin.include_role:
+        name: ../../../molecule_generic
+        tasks_from: create.yml

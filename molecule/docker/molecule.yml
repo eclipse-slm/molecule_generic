@@ -1,0 +1,64 @@
+---
+dependency:
+  name: galaxy
+  options:
+    ignore-certs: false
+    ignore-errors: false
+    role-file: requirements.yml
+    requirements-file: requirements.yml
+
+platforms:
+  - name: ubuntu24-1
+    image: ubuntu:24.04
+    command: sleep infinity
+    volumes:
+      - test-volume:/tmp/test-volume
+    networks:
+      - name: ubuntu-test-network
+        aliases:
+          - ubuntu24-1
+  - name: ubuntu24-2
+    image: ubuntu:24.04
+    command: sleep infinity
+    volumes:
+      - test-volume2:/tmp/test-volume
+    networks:
+      - name: ubuntu-test-network
+        aliases:
+          - ubuntu24-2
+
+ansible:
+  cfg:
+    defaults:
+      host_key_checking: false
+      verbosity: 1
+    ssh_connection:
+      pipelining: true
+  env:
+    ANSIBLE_FORCE_COLOR: "1"
+    ANSIBLE_LOAD_CALLBACK_PLUGINS: "1"
+    MOLECULE_DRIVER: docker
+
+  executor:
+    backend: ansible-playbook
+    args:
+      ansible_playbook:
+        - --diff
+        - --force-handlers
+
+  playbooks:
+    prepare: prepare.yml
+    converge: ../default/converge.yml
+    destroy: ../default/destroy.yml
+    verify: ../default/verify.yml
+
+scenario:
+  name: docker
+  test_sequence:
+    - dependency
+    - destroy
+    - syntax
+    - converge
+    - prepare
+    - verify
+    - destroy
