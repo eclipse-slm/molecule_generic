@@ -15,12 +15,15 @@ does the work.
 `molecule_generic_driver` picks the backend. It defaults to the `MOLECULE_DRIVER`
 environment variable, and to `openstack` when that is unset or empty.
 
+Per run, in a scenario whose platforms fit that driver:
+
 ```bash
-MOLECULE_DRIVER=docker molecule test                        # per run
-molecule converge -- -e molecule_generic_driver=kubevirt    # extra var wins over the env var
+MOLECULE_DRIVER=docker molecule test -s my_scenario
+molecule converge -s my_scenario -- -e molecule_generic_driver=kubevirt   # extra var wins over the env var
 ```
 
-A scenario can also fix its driver in `molecule.yml`:
+Or fix the driver in the scenario's `molecule.yml`. This takes precedence over
+`MOLECULE_DRIVER` from your shell, because Molecule merges `ansible.env` over it:
 
 ```yaml
 ansible:
@@ -82,7 +85,7 @@ use the format of the selected backend.
 
 | Scenario   | Driver                       | Notes                                              |
 |------------|------------------------------|----------------------------------------------------|
-| `default`  | from `MOLECULE_DRIVER`       | Shared converge/destroy/verify playbooks; no platforms |
+| `default`  | from `MOLECULE_DRIVER`       | Shared converge/destroy/verify playbooks only; has no platforms, so not runnable on its own |
 | `docker`   | `docker`                     | Two `ubuntu:24.04` containers; prepare installs Python |
 | `kubevirt` | `kubevirt`                   | Two Ubuntu 24.04 VMs; needs a cluster              |
 
